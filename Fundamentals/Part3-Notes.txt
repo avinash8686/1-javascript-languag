@@ -1,0 +1,9 @@
+Contains:
+Loops: while and for
+The "switch" statement
+Functions
+Function expressions
+Arrow functions, the basics
+JavaScript specials
+
+**Loops: while and for**

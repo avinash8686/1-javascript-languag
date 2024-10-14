@@ -1,0 +1,407 @@
+Contains:
+> Comparisons
+> Conditional branching: if, '?'
+> Logical operators
+> Nullish coalescing operator '??'
+
+
+**Comparisons**
+
+Greater/less than: a > b, a < b.
+Greater/less than or equals: a >= b, a <= b.
+
+a == b > Equality check, whereas a = b is assignment
+≠ in math, In JS it is a != b
+
+**Boolean is the result**
+All comparison operators return a boolean value
+
+alert( 2 > 1 );  // true (correct)
+alert( 2 == 1 ); // false (wrong)
+alert( 2 != 1 ); // evaluation of 2 not equal to 1 is correct, so answer is true (correct)
+
+This works tooo
+let result = 5 > 4; // assign the result of the comparison
+alert( result ); // true
+
+**String comparison**
+
+To see whether a string is greater than another, JavaScript uses “lexicographical” order.
+
+Strings are compared letter by letter
+
+alert( 'Z' > 'A' ); // true, always compare the first character n check
+alert( 'Glow' > 'Glee' ); // true, if first chars are equal, check with 2nd char, if they are equal too, move on too 3rd char do this till the end
+alert( 'Bee' > 'Be' ); // true, 
+
+Note: Not a real dictionary, but Unicode order
+a > A // true, lowercase a has greater index than A
+
+**Comparison of different types**
+
+Converts values to numbers.
+alert( '2' > 1 ); // true, string '2' becomes a number 2
+alert( '01' == 1 ); // true, string '01' becomes a number 1
+
+For booleans true becomes 1, false becomes 0
+alert( true == 1 ); // true,
+alert( false == 0 ); // true
+
+==A funny consequence==
+It is possible that at the same time:
+
+Two values are equal.
+One of them is true as a boolean and the other one is false as a boolean.
+
+let a = 0;
+alert( Boolean(a) ); // false, 0 is the number, so boolean conversion of 0 becomes false
+
+let b = "0";
+alert( Boolean(b) ); // true, 0 is a string, and the string is non-empty, boolean conversion of non-empty string is true
+
+alert(a == b); // true!, this is because, the "0"(string) is being compared with 0(number), so the string gets converted to number and comparison 0 == 0 gives true.
+
+**Strict equality**
+
+A regular equality check == has a problem. It cannot differentiate 0 from false:
+
+alert( 0 == false ); // true, here diff types are converted to numbers
+
+alert( '' == false ); // true, same with '', '' is converted to 0 & false to 0
+
+A strict equality operator === checks the equality without type conversion.
+
+alert( 0 === false ); // false, because the types are different, As the types are different, It didn't convert the false to number
+the type check failed, so it returned false
+
+----There is also a “strict non-equality” operator !== analogous to !=.----
+
+**Comparison with null and undefined**
+
+For a strict equality check ===
+
+alert( null === undefined ); // false, coz the types are different, type check failed so it returned false
+
+For a non-strict check ==
+
+alert( null == undefined ); // true, they equal each other with ==
+
+For maths and other comparisons < > <= >=
+null/undefined converted to numbers 
+
+null -> 0
+undefined -> NaN
+
+Tricky:
+-------
+Below >, >= are comparisons, so null conveted to 0
+the == equality check for null only equals undefined, rest of others are false.
+
+alert( null > 0 );  // (1) false, null converted to 0, so 0 > 0 wrong, so false
+alert( null == 0 ); // (2) false, null with == check will only equals undefined, so false
+alert( null >= 0 ); // (3) true, null converted to 0 and, 0 >= 0 is correct, so true.
+
+**An incomparable undefined**
+
+The value undefined shouldn’t be compared to other values
+
+alert( undefined > 0 ); // false (1) with < > <= >=, undefined is conveted to number which is NaN, and NaN with anything gives false
+alert( undefined < 0 ); // false (2) with < > <= >=, undefined is conveted to number which is NaN, and NaN with anything gives false
+alert( undefined == 0 ); // false (3) undefined with only null gives true for == equality check, rest all are false
+
+**Avoid problems**
+
+- Treat any comparison with undefined/null except the strict equality === with exceptional care.
+- Don’t use comparisons >= > < <= with a variable which may be null/undefined, unless you’re really sure of what you’re doing. If a variable can have these values, check for them separately.
+
+=================================================================
+
+**Conditional branching: if, '?'**
+
+To perform various ops based on conditions, for that we use if or ?
+
+if(...) > it evaluates paranthesis() if result is true, executes block of code
+
+let year = 2015
+if (year == 2015) {
+  // In this case the year is 2015 so below code executes
+  alert( "That's correct!" );
+  alert( "You're so smart!" );
+}
+
+**Boolean conversion**
+
+> The if (…) statement evaluates the expression in its parentheses and converts the result to a boolean.
+
+- A number 0, an empty string "", null, undefined, and NaN all become false. Because of that they are called “falsy” values.
+
+- Other values become true, so they are called “truthy”.
+
+if (0) { // 0 is falsy
+  ...
+}
+
+if (1) { // 1 is truthy
+  ...
+}
+
+> The “else” clause
+let year = 2016;
+if (year == 2015) {
+  alert( 'You guessed it right!' );
+} else {
+  alert( 'How can you be so wrong?' ); // any value except 2015
+}
+
+> Several conditions: “else if”
+else if is used to check 2nd/3rd/4th conditions, if "if" block fails
+if (year < 2015) {
+  alert( 'Too early...' );
+} else if (year > 2015) {
+  alert( 'Too late' );
+} else {
+  alert( 'Exactly!' );
+}
+
+**Conditional operator ‘?’**
+
+Can use conditional operator '?' to shorten the if/else statements
+
+let result = condition ? value1 : value2;
+
+let accessAllowed = (age > 18) ? true : false;
+
+let accessAllowed = age > 18; // this also works bcoz the evaluation of age > 18 returns true or false
+
+----Multiple ‘?’----
+
+With Multiple ? we can use replicate if/elseif/else conditions in a shorter way
+
+let age = prompt('age?', 18);
+
+let message = (age < 3) ? 'Hi, baby!' :
+  (age < 18) ? 'Hello!' :
+  (age < 100) ? 'Greetings!' :
+  'What an unusual age!';
+
+
+=================================================================
+
+**Logical operators**
+
+There are four logical operators in JavaScript: 
+|| (OR)
+&& (AND)
+! (NOT)
+?? (Nullish Coalescing)
+
+**|| (OR)**
+
+result = a || b; // if one of them is true, the result will be true
+
+There are four possible logical combinations:
+
+alert( true || true );   // true, atleast 1 is true
+alert( false || true );  // true, atleast 1 is true
+alert( true || false );  // true, atleast 1 is true
+alert( false || false ); // false, both are false, so false
+
+if (1 || 0) { // works just like if( true || false )
+  alert( 'truthy!' );
+}
+
+OR "||" finds the first truthy value
+
+- Evaluates operands from left to right.
+- For each operand, converts it to boolean. 
+If the result is true, stops and returns the original value of that operand.
+- If all operands have been evaluated (i.e. all were false), returns the last operand.
+
+alert( 1 || 0 ); // 1 (1 is truthy)
+
+alert( null || 1 ); // 1 (1 is the first truthy value)
+alert( null || 0 || 1 ); // 1 (the first truthy value)
+
+alert( undefined || null || 0 ); // 0 (all falsy, returns the last value)
+
+Eg:
+
+let firstName = ""; // falsy
+let lastName = ""; // falsy
+let nickName = "SuperCoder"; // non-empty string is true, so return that value
+
+alert( firstName || lastName || nickName || "Anonymous"); // SuperCoder
+
+---Short-circuit evaluation.---
+
+OR check for 1st truthy value, once it finds it, It won't touch anything else 
+
+true || alert("not printed"); // 1st value is truthy (true), so alert is ignored
+false || alert("printed"); // "printed" bcoz 1st value is falsy, so alert is executed
+
+
+**&& (AND)**
+The AND operator is represented with two ampersands &&
+
+result = a && b;
+
+Result is true if both/all are true, else it is false
+
+alert( true && true );   // true, both are true
+alert( false && true );  // false, atleast 1 is false
+alert( true && false );  // false, atleast 1 is false
+alert( false && false ); // false, atleast 1 is false
+
+// Just like OR any value is allowed as an operand of AND
+if (1 && 0) { // evaluated as true && false
+  alert( "won't work, because the result is falsy" );
+}
+
+AND “&&” finds the first falsy value
+
+OR finds first truthy value, AND finds first falsy value.
+
+result = value1 && value2 && value3;
+
+- Evaluates from left to right
+- For each operand it converts to boolean, if the result is false stops & returns original value of that operand
+- If all operands were evaluated, i.e all are truthy, it returns the last operand
+
+// if the first operand is truthy,
+// AND returns the second operand:
+alert( 1 && 0 ); // 0, 0 is 1st falsy value, so it returns that value
+alert( 1 && 5 ); // 5, both 1 and 5 are truthy values, so it returns the last operand which is 5
+
+// if the first operand is falsy,
+// AND returns it. The second operand is ignored
+alert( null && 5 ); // null, null is the first falsy value, so that value is returned.
+alert( 0 && "no matter what" ); // 0, 0 is first falsy value, so that value is returned and the rest of them are ignored.
+
+
+alert( 1 && 2 && null && 3 ); // null, since null is the 1st falsy value
+
+alert( 1 && 2 && 3 ); // 3, the last one, all values are truthy, so last value is returned.
+
+---Precedence of AND && is higher than OR ||---
+
+a && b || c && d is same as (a && b) || (c && d).
+The && is evaluated first on both sides and then the || operation is evaluated.
+
+
+(x > 0) && alert( 'Greater than zero!' );
+is same as 
+if (x > 0) alert( 'Greater than zero!' );
+
+**! (NOT)**
+result = !value;
+
+Converts the operand to boolean type: true/false.
+Returns the inverse value.
+
+alert( !true ); // false, without ! operator the result is true, but ! operator inversed true to false
+alert( !0 ); // true, By default 0 converted to boolean type of false, but ! operator inversed false to true.
+
+A double NOT !! is sometimes used for converting a value to boolean type:
+
+alert( !!"non-empty string" ); // true, 1st ! converts the non-empty string(true) to false, the 2nd ! converts false to true 
+alert( !!null ); // false, the 1st not converts null(false) to true, 2nd ! converts true to false
+
+Verbose way of saying the above is :
+
+alert( Boolean("non-empty string") ); // true
+alert( Boolean(null) ); // false
+
+
+QUIZ > https://javascript.info/logical-operators#tasks
+
+=================================================================
+
+**Nullish coalescing operator '??'**
+
+This is a recent addition to the language. Old browsers may need polyfills.
+
+The result of a ?? b is:
+
+- A value is “defined” when it’s neither null nor undefined.
+
+if a is defined, then a,
+if a isn’t defined, then b.
+
+We can rewrite result = a ?? b using the operators that we already know, like this:
+
+result = (a !== null && a !== undefined) ? a : b;
+
+Eg:
+1, let user;
+
+alert(user ?? "Anonymous"); // Anonymous (user is undefined)
+
+2, let user = "John";
+
+alert(user ?? "Anonymous"); // John (user is not null/undefined)
+
+--- Checking for 1st defined value ---
+
+let firstName = null;
+let lastName = null;
+let nickName = "Supercoder";
+
+// shows the first defined value:
+alert(firstName ?? lastName ?? nickName ?? "Anonymous"); // Supercoder, bcoz only nickName is defined
+
+---Comparison with OR---
+
+let firstName = null;
+let lastName = null;
+let nickName = "Supercoder";
+
+// shows the first truthy value:
+alert(firstName || lastName || nickName || "Anonymous"); // Supercoder
+
+Both ?? & || returns the same result for above example.
+
+The reason for ?? is that 
+|| returns first truthy value, It ignores all 0, false, "" bcoz all these are falsy values
+?? returns first value that exists doesn't matter if it's truthy or falsy. It checks for defined value.
+
+Eg:
+
+let height = 0;
+
+alert(height || 100); // 100, bcoz the OR checks for 1st truthy value, 0 is falsy, 100 is truthy, so 100 is returned
+alert(height ?? 100); // 0, bcoz the 0 is a defined value, doesn't matter whether it is truthy or falsy.
+
+||, ?? has same precedence and is evaluated before =, ? but after most other operations like + *
+
+So we have to use the params
+
+let height = null;
+let width = null;
+
+// important: use parentheses
+let area = (height ?? 100) * (width ?? 50);// height doesn't exists, so 100, width doesn't exist so 50
+// Result is 100 * 50 = 5000
+
+alert(area); // 5000
+
+// without parentheses
+let area = height ?? 100 * width ?? 50; 
+
+// ...works this way (not what we want):
+let area = height ?? (100 * width) ?? 50; // 100 * null will be evaluated first, this is math operation so null is turned to 0, result is 100 * 0 = 0
+// Now height is null, so null doesn't exist, next is 0, 0 is value that exists so the result is 0
+// which is wrong answer in this case bcoz of missing paranthesis
+
+
+Using ?? with && or ||
+
+Due to safety reasons, JavaScript forbids using ?? together with && and || 
+
+let x = 1 && 2 ?? 3; // Syntax error
+
+Use explicit parentheses to work around it:
+
+let x = (1 && 2) ?? 3; // Works, now && is evaluted first bcoz of high precedence, && looks for 1st falsy value
+// As there is no falsy value, it takes the last value, i.e 2, 2 ?? 3 gives 2, bcoz 2 is a value that exists and is not undefined.
+
+alert(x); // 2
